@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "714193708026",
+    "project_id": "vtask-d65d3",
+    "storage_bucket": "vtask-d65d3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714193708026:android:c5022a24fe10ae39083a43",
+        "android_client_info": {
+          "package_name": "com.vtask"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "714193708026-20q5c860jdhctkf3s3r6o7qq0lthsj43.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHO7ZZWIvA4g9wtdchwANzkOU-UbXmuMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "714193708026-20q5c860jdhctkf3s3r6o7qq0lthsj43.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
