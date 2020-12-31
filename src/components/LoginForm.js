@@ -1,122 +1,86 @@
-import React,{Component} from 'react';
-import {View,Text,TextInput,StyleSheet,TouchableOpacity} from 'react-native';
-import {connect} from 'react-redux';
-import {emailChanged,
-        passwordChanged,
-        loginUser} from '../actions';
-
+import React, { Component } from 'react';
+import { Text } from 'react-native';
+import { connect } from 'react-redux';
+import { emailChanged, passwordChanged, loginUser,usersCreate,usersFetch,usersSave } from '../actions';
+import { Card, CardSection, Input, Button, Spinner } from './common';
 
 class LoginForm extends Component {
-    onEmailChange(text){
-        this.props.emailChanged(text);
-    }
-    onPasswordChange(text){
-        this.props.passwordChanged(text);
-    }
-    onButtonPress(){
-        const {email, password} = this.props
-        this.props.loginUser({email,password})
-    }
-    renderError(){
-        if(this.props.error){
-            return(
-                <View style={{backgroundColor: 'white'}}>
-                    <Text style={styles.errorTextStyle}>{this.props.error}</Text>
-                </View>
-            )
-        }
-    }
-    renderButton(){
-        if(this.props.loading){
-            return <Text>Loading...</Text>
-        }
-        return(
-            <TouchableOpacity 
-                    style={styles.loginBtn}
-                    onPress={this.onButtonPress.bind(this)}
-                    >
-                    <Text style={styles.loginText}>LOGIN</Text>
-                </TouchableOpacity>
-        )
+  onEmailChange(text) {
+    this.props.emailChanged(text);
+  }
+
+  onPasswordChange(text) {
+    this.props.passwordChanged(text);
+  }
+
+  onButtonPress() {
+    const { email, password } = this.props;
+
+    this.props.loginUser({ email, password });
+    this.props.usersCreate({email,password});
+  }
+
+  renderButton() {
+    if (this.props.loading) {
+      return <Spinner size="large" color="#000"/>;
     }
 
-    render(){
-    return(
-        <View style={styles.container}>
-        <View style={styles.inputView}>
-            <TextInput
-                style={styles.inputText}
-                placeholder="email@gmail.com"
-                placeholderTextColor="#000000"
-                onChangeText={this.onEmailChange.bind(this)}
-                value={this.props.email}
-                />
-                </View>
-                <View style={styles.inputView}>
-            <TextInput 
-                style={styles.inputText}
-                secureTextEntry
-                placeholder="Password..."
-                placeholderTextColor="#000000" 
-                onChangeText={this.onPasswordChange.bind(this)}
-                value={this.props.password}
-                />
-                </View>
-                {this.renderError()}
-                {this.renderButton()}
-        </View>
-    
+    return (
+      <Button onPress={this.onButtonPress.bind(this)}>
+        Login
+      </Button>
     )
-    }
+  }
+  
+
+  render() {
+    return (
+      <Card>
+        <CardSection>
+          <Input
+            label="Email"
+            placeholder="email@gmail.com"
+            onChangeText={this.onEmailChange.bind(this)}
+            value={this.props.email}
+          />
+        </CardSection>
+
+        <CardSection>
+          <Input
+            secureTextEntry
+            label="Password"
+            placeholder="password"
+            onChangeText={this.onPasswordChange.bind(this)}
+            value={this.props.password}
+          />
+        </CardSection>
+
+        <Text style={styles.errorTextStyle}>
+          {this.props.error}
+        </Text>
+
+        <CardSection>
+          {this.renderButton()}
+        </CardSection>
+      </Card>
+    );
+  }
 }
 
+const styles = {
+  errorTextStyle: {
+    fontSize: 20,
+    alignSelf: 'center',
+    color: 'red'
+  }
+};
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems:'center',
-        justifyContent: 'center',
-        backgroundColor:'white'
-    },
-    inputView:{
-        width: "80%",
-        backgroundColor: "#dcdcdc",
-        borderRadius: 25,
-        height: 50,
-        marginBottom: 20,
-        justifyContent: "center",
-        padding: 20
+const mapStateToProps = ({ auth }) => {
+  const { email, password, error, loading } = auth;
 
-    },
-    inputText:{
-       height: 50,
-       color: "black" 
-    },
-    loginBtn:{
-        width: "80%",
-        backgroundColor: "#1e90ff",
-        borderRadius: 25,
-        height: 50,
-        alignItems:'center',
-        justifyContent:'center',
-        marginTop:30,
-        marginBottom: 10
-    },
-    loginText:{
-        color:'white'
-    },
-    errorTextStyle: {
-        fontSize: 20,
-        alignSelf: "center",
-        color: 'red'
-    }
-})
+  return { email, password, error, loading };
+};
 
-const mapStateToProps = ({auth}) => {
-    const {email, password, error, loading} = auth
-    return{
-        email, password, error, loading
-    }
-}
-
-export default connect(mapStateToProps, { emailChanged,passwordChanged,loginUser })(LoginForm);
+export default connect(mapStateToProps, {
+  emailChanged, passwordChanged, loginUser,usersCreate,usersFetch,usersSave
+})(LoginForm);

@@ -3,3 +3,10 @@ export const PASSWORD_CHANGED = 'password_changed';
 export const LOGIN_USER_SUCCESS = 'login_user_success';
 export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER = 'login_user';
+
+
+export const USERS_CREATE = 'users_create';
+export const USERS_FETCH_SUCCESS = 'users_fetch_success';
+export const USERS_SAVE_SUCCESS = 'users_save_success';
+
+export const REMOVE_ITEM = 'remove_item';
