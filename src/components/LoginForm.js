@@ -1,14 +1,44 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { connect } from 'react-redux';
-import { emailChanged, passwordChanged, loginUser,usersCreate,usersFetch,usersSave } from '../actions';
+import { bindActionCreators } from 'redux';
+import { emailChanged, passwordChanged, loginUser,usersCreate,usersFetch,usersSave,testFirebaseInRedux} from '../actions';
 import { Card, CardSection, Input, Button, Spinner } from './common';
+import firebase from 'firebase';
+import { Actions } from 'react-native-router-flux';
 
 class LoginForm extends Component {
+constructor(props){
+  super(props)
+}
+// componentDidMount(){
+//   const firebaseConfig = {
+//     apiKey: "AIzaSyAc8fstZ8UFELf8zsfQehEb5NogRtXtXB8",
+//     authDomain: "vtask-d65d3.firebaseapp.com",
+//     projectId: "vtask-d65d3",
+//     storageBucket: "vtask-d65d3.appspot.com",
+//     messagingSenderId: "714193708026",
+//     appId: "1:714193708026:web:e5ccdd8bb99f800c083a43",
+//     measurementId: "G-G2EMY2G789"
+//   };
+//       // Initialize Firebase
+//       if(!firebase.apps.length){    
+//         firebase.initializeApp(firebaseConfig);
+//     }
+//   firebase.auth().onAuthStateChanged(user => {
+//     if(!user){
+//       console.log("no user logged in")
+//     }else{
+//       console.log("user is signed in")
+//       Actions.main();
+//     }
+//   })
+// }
+
   onEmailChange(text) {
     this.props.emailChanged(text);
   }
-
+  
   onPasswordChange(text) {
     this.props.passwordChanged(text);
   }
@@ -17,7 +47,7 @@ class LoginForm extends Component {
     const { email, password } = this.props;
 
     this.props.loginUser({ email, password });
-    this.props.usersCreate({email,password});
+    // this.props.usersCreate({email,password});
   }
 
   renderButton() {
@@ -76,11 +106,22 @@ const styles = {
 };
 
 const mapStateToProps = ({ auth }) => {
-  const { email, password, error, loading } = auth;
+  const { email, password, error, loading, isVerifying} = auth;
+  
+  
 
-  return { email, password, error, loading };
+  return { email, password, error, loading, isVerifying
+    };
 };
 
+// function matchDispatchToProps(dispatch) {
+//   return bindActionCreators({
+//     testFirebaseInRedux: testFirebaseInRedux,
+//   }, dispatch)
+// }
+
 export default connect(mapStateToProps, {
-  emailChanged, passwordChanged, loginUser,usersCreate,usersFetch,usersSave
+  emailChanged, passwordChanged, loginUser
 })(LoginForm);
+
+

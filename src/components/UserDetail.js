@@ -51,26 +51,41 @@
 // export default connect(mapStateToProps,{removeItem})(UserDetail)
 
 
-import React from 'react';
+import React,{useState,useEffect,useCallback} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   Image,
-  Button
+  Button,
+  Switch
 } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+
 import { useSelector, useDispatch } from 'react-redux';
-import {removeItem} from '../actions/index';
+
 
 function userDetail(props) {
+
     const users = useSelector(state => state.users)
-    const userId = props.id;
+    const userId = props.id;   
     const selectedUser = users.find(user => user.id === userId)
-    console.log(userId)
-   
+    console.log(userId)   
+    
+    // useEffect(() => {
+    //     dispatch(removeItem(selectedUser.id))
+    // },[users])
    // console.log({users})
-    const dispatch = useDispatch()
-    console.log(dispatch(removeItem(selectedUser.id)))
+//    const [isUser,setUser] = useState(false)
+//     const dispatch = useDispatch()
+//     const saveFilters = (useCallback(() => {
+//         const appliedFilter = {user: isUser}
+//         dispatch(removeItem(appliedFilter))
+//     },[isUser]))
+//     useEffect(() => {
+//         props.navigation.setParams({save: saveFilters})
+//     },[saveFilters])
+    
     return(
         <View style={{flex: 1}}>
                 <Image 
@@ -81,7 +96,10 @@ function userDetail(props) {
                         <Text style={styles.textingStyle}>UserName: {selectedUser.name}</Text>
                         <Text style={styles.textingStyle}>Email: {selectedUser.email}</Text>
                         <Text style={styles.textingStyle}>Description: {selectedUser.Description}</Text>
-                <Button title="Hide me" onPress={() => {dispatch(removeItem(selectedUser.id))}}/>
+
+                <Button title="Hide me" onPress={() => Actions.Users({id: selectedUser.id})} />
+                <Button style={styles.logoutButtonStyle} title="LogOut" onPress={() => Actions.auth()}/>
+               
 
              </View>
 
@@ -98,7 +116,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         paddingLeft: 15,
         fontWeight: 'bold'
+    },
+    logoutButtonStyle:{
+        marginBottom: 10,
+        marginHorizontal: 10,
+        
     }
+
 })
 
 export default userDetail;

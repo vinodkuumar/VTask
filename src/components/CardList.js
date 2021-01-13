@@ -64,7 +64,7 @@
 // export default connect(mapStateToProps)(CardList);
 
 
-import React from 'react';
+import React,{useState,useEffect}from 'react';
 import {
   StyleSheet,
   Text,
@@ -74,14 +74,31 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch } from 'react-redux';
 import { Card,CardSection } from './common';
 import { Actions } from 'react-native-router-flux';
+import {removeItem} from '../actions/index';
 
 
 
 const CardList = props => {
+    
     const users = useSelector(state => state.users)
+    const [availableUsers,setAvailableUsers] = useState([users]);
+    console.log("@ac", availableUsers)
+    const fusers = useSelector(state => state.filteredUsers)
+    const [fc,setFc] = useState([fusers]) 
+    console.log("@fc", fc)
+    const dispatch = useDispatch();
+    const userId = props.id;
+    console.log("@selected user", userId);
+    const updatedUsers = users.filter(item => item.id !== userId)
+   
+    
+    useEffect(() => {
+          dispatch(removeItem(userId))
+          setAvailableUsers(updatedUsers)
+    },[])
     
     const renderUser = itemData => {
         return(
@@ -101,8 +118,8 @@ const CardList = props => {
     return(
         <View>
             <FlatList 
-                data = {users}
-                keyExtractor = {(item,index) => item.id.toString()}
+                data = {availableUsers}
+                keyExtractor = {(item,index) => item.id}
                 renderItem={renderUser}/>
         </View>
     )
