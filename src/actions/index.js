@@ -5,16 +5,8 @@ import {EMAIL_CHANGED,
         LOGIN_USER_SUCCESS,
         LOGIN_USER_FAIL,
         LOGIN_USER,
-        USERS_CREATE,
-        USERS_FETCH_SUCCESS,
-        USERS_SAVE_SUCCESS,
         REMOVE_ITEM,
-        LOGOUT_REQUEST,
-        LOGOUT_SUCCESS,
-        LOGOUT_FAILURE,
-        VERIFY_REQUEST,
-        VERIFY_SUCCESS,
-        LOGIN_SUCCESS} from './types';
+        }from './types';
 
 
 export const emailChanged = (text) => {
@@ -59,79 +51,88 @@ const loginUserSuccess = (dispatch, user) => {
     Actions.main();
 }
 
-export const logoutUser = () => dispatch => {
-    dispatch(requestLogout())
-    firebase.auth().signOut().then(() => {
-        dispatch(receiveLogout());
-    })
-    .catch(error => {
-        dispatch(logoutError());
-    })
-}
+export const removeItem = id => ({
+    type: REMOVE_ITEM,
+    payload: id
+})
+
+// export const logoutUser = () => dispatch => {
+//     dispatch(requestLogout())
+//     firebase.auth().signOut().then(() => {
+//         dispatch(receiveLogout());
+//     })
+//     .catch(error => {
+//         dispatch(logoutError());
+//     })
+// }
 
 
-const receiveLogin = user => {
-    return {
-      type: LOGIN_SUCCESS,
+// const receiveLogin = user => {
+//     return {
+//       type: LOGIN_SUCCESS,
       
-    };
-  };
+//     };
+//   };
 
 
-const requestLogout = () => {
-    return{
-        type: LOGOUT_REQUEST
-    }  
-}
+// const requestLogout = () => {
+//     return{
+//         type: LOGOUT_REQUEST
+//     }  
+// }
 
-const receiveLogout = () => {
-    return{
-        type: LOGOUT_SUCCESS
+// const receiveLogout = () => {
+//     return{
+//         type: LOGOUT_SUCCESS
         
-    }
+//     }
     
-}
+// }
 
-const logoutError = () => {
-    return{
-        type: LOGOUT_FAILURE
-    }
-}
+// const logoutError = () => {
+//     return{
+//         type: LOGOUT_FAILURE
+//     }
+// }
 
-const verifyRequest = () => {
-    return{
-        type: VERIFY_REQUEST
-    }
-}
+// const verifyRequest = () => {
+//     return{
+//         type: VERIFY_REQUEST
+//     }
+// }
 
-const verifySuccess = () => {
-    return{
-        type: VERIFY_SUCCESS
-    }
-}
+// const verifySuccess = () => {
+//     return{
+//         type: VERIFY_SUCCESS
+//     }
+// }
 
-export const verfiyAuth = () => dispatch => {
-    dispatch(verifyRequest())
-    const firebaseConfig = {
-        apiKey: "AIzaSyAc8fstZ8UFELf8zsfQehEb5NogRtXtXB8",
-        authDomain: "vtask-d65d3.firebaseapp.com",
-        projectId: "vtask-d65d3",
-        storageBucket: "vtask-d65d3.appspot.com",
-        messagingSenderId: "714193708026",
-        appId: "1:714193708026:web:e5ccdd8bb99f800c083a43",
-        measurementId: "G-G2EMY2G789"
-      };
-          // Initialize Firebase
-          if(!firebase.apps.length){    
-            firebase.initializeApp(firebaseConfig);
-        }
-    firebase.auth().onAuthStateChanged(user => {
-        if(user != null){
-            dispatch(receiveLogin(user))
-        }
-        dispatch(verifySuccess())
-    })
-}
+// export const verfiyAuth = () => dispatch => {
+//     const firebaseConfig = {
+//         apiKey: "AIzaSyAc8fstZ8UFELf8zsfQehEb5NogRtXtXB8",
+//         authDomain: "vtask-d65d3.firebaseapp.com",
+//         projectId: "vtask-d65d3",
+//         storageBucket: "vtask-d65d3.appspot.com",
+//         messagingSenderId: "714193708026",
+//         appId: "1:714193708026:web:e5ccdd8bb99f800c083a43",
+//         measurementId: "G-G2EMY2G789"
+//       };
+//           // Initialize Firebase
+//           if(!firebase.apps.length){    
+//             firebase.initializeApp(firebaseConfig);
+//         }
+//     dispatch(verifyRequest())
+//     firebase.auth().onAuthStateChanged(user => {
+//         if(user !== null){
+//             dispatch(receiveLogin(user)) 
+//             console.log("user already logged in")
+//         }
+//         else{
+//             console.log("no user logged in")
+//             dispatch(verifySuccess())
+//         }
+//     })
+// }
 
 
 
@@ -200,7 +201,3 @@ export const verfiyAuth = () => dispatch => {
 //     }
 // }
 
-export const removeItem = id => ({
-    type: REMOVE_ITEM,
-    payload: id
-})

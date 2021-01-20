@@ -63,15 +63,23 @@ import {
 import { Actions } from 'react-native-router-flux';
 
 import { useSelector, useDispatch } from 'react-redux';
-
+import {removeItem} from '../actions/index';
 
 function userDetail(props) {
 
-    const users = useSelector(state => state.users)
+    const users = useSelector(state => state.auth.users)
     const userId = props.id;   
     const selectedUser = users.find(user => user.id === userId)
     console.log(userId)   
+    const dispatch = useDispatch();
+    const removeUser = props => {
+        {dispatch(removeItem(selectedUser.id))}
+    }
     
+    // useEffect(() => {
+    //     dispatch(removeItem(selectedUser.id))
+
+    // })
     // useEffect(() => {
     //     dispatch(removeItem(selectedUser.id))
     // },[users])
@@ -97,10 +105,10 @@ function userDetail(props) {
                         <Text style={styles.textingStyle}>Email: {selectedUser.email}</Text>
                         <Text style={styles.textingStyle}>Description: {selectedUser.Description}</Text>
 
-                <Button title="Hide me" onPress={() => Actions.Users({id: selectedUser.id})} />
-                <Button style={styles.logoutButtonStyle} title="LogOut" onPress={() => Actions.auth()}/>
-               
-
+                <Button title="Hide me" onPress={() => removeUser()} />
+                <View style={styles.logoutButtonStyle}>
+                <Button  title="LogOut" onPress={() => Actions.auth()}/>
+                </View>
              </View>
 
     )
@@ -118,9 +126,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     logoutButtonStyle:{
-        marginBottom: 10,
-        marginHorizontal: 10,
-        
+        alignItems: 'center',
+        marginVertical: 5
     }
 
 })

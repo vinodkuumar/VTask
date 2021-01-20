@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { emailChanged, passwordChanged, loginUser,usersCreate,usersFetch,usersSave,testFirebaseInRedux} from '../actions';
+import { emailChanged, passwordChanged, loginUser} from '../actions';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 
 class LoginForm extends Component {
-constructor(props){
-  super(props)
-}
+// constructor(props){
+//   super(props)
+// }
 // componentDidMount(){
 //   const firebaseConfig = {
 //     apiKey: "AIzaSyAc8fstZ8UFELf8zsfQehEb5NogRtXtXB8",
@@ -27,10 +26,11 @@ constructor(props){
 //     }
 //   firebase.auth().onAuthStateChanged(user => {
 //     if(!user){
+//       Actions.root();
 //       console.log("no user logged in")
 //     }else{
 //       console.log("user is signed in")
-//       Actions.main();
+      
 //     }
 //   })
 // }
@@ -52,7 +52,7 @@ constructor(props){
 
   renderButton() {
     if (this.props.loading) {
-      return <Spinner size="large" color="#000"/>;
+      return <Spinner size="large" color='blue'/>;
     }
 
     return (
@@ -61,7 +61,7 @@ constructor(props){
       </Button>
     )
   }
-  
+
 
   render() {
     return (
@@ -107,18 +107,15 @@ const styles = {
 
 const mapStateToProps = ({ auth }) => {
   const { email, password, error, loading, isVerifying} = auth;
-  
-  
-
-  return { email, password, error, loading, isVerifying
-    };
+  return {
+    email,
+    password,
+    error,
+    loading,
+    isVerifying
+  };
 };
 
-// function matchDispatchToProps(dispatch) {
-//   return bindActionCreators({
-//     testFirebaseInRedux: testFirebaseInRedux,
-//   }, dispatch)
-// }
 
 export default connect(mapStateToProps, {
   emailChanged, passwordChanged, loginUser
